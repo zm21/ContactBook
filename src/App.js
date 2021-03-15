@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
+import './App';
+import ContactItem from './components/contact-item/contact-item'
+import NavbarItem from './components/navbar-item/navbar-item'
+import CreateContactItem from './components/create-contact-item/create-contact-item'
+class App extends Component {
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  render() {
+    return (
+      <Fragment>
+        <NavbarItem></NavbarItem>
+        
+        <div className="container-fluid">
+          <div className="row">
+
+            <div className="col-lg-3 col-md-3 col-sm-12">
+              <CreateContactItem></CreateContactItem>
+            </div>
+
+            <div className="col-lg-9 col-md-9 col-sm-12">
+              <div className="row">
+
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <ContactItem> </ContactItem>
+                </div>
+                
+                <div className="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <ContactItem> </ContactItem>
+                </div>
+
+              </div> 
+            </div>
+
+          </div>
+        </div>
+      </Fragment>
+    )
+  }
 }
 
 export default App;
