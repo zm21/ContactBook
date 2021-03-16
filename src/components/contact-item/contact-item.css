@@ -3,3 +3,13 @@
 .contcat-card-cont{
     padding: 10px;
 }
+
+.card-footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.star{
+    font-size: 32px;
+    color: yellowgreen;
+}

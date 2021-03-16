@@ -6,25 +6,28 @@ class CreateContactItem extends Component {
   render() {
     return (
       <Fragment>
-        <div className="container">
-
           <form>
-            <h2>Add contact</h2>
             <div class="form-group">
-              <label for="exampleInputEmail1">Name</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name" />
+              <label>Contact name</label>
+              <input type="text" class="form-control" placeholder="Enter name" />
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">PhoneNumber</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone" />
+              <label>Contact number</label>
+              <input type="text" class="form-control" placeholder="Enter number" />
             </div>
             <div class="form-group">
-            <label for="exampleInputEmail1">Image</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter image" />
+              <label>Contact number image</label>
+              <input type="number" max="100" min="0" class="form-control" placeholder="Enter image number" />
+            </div>
+            <div class="form-group">
+              <label>Contact gender</label>
+              <select value="Select gender" className="form-control">
+                  <option value="women">Women</option>
+                  <option value="men">Men</option>
+              </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
-        </div>
       </Fragment>
     )
   }
