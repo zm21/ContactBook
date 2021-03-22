@@ -4,6 +4,7 @@ import './create-contact-item.css';
 class CreateContactItem extends Component {
 
   state = {
+    isFirstRender: true,
     id: 0,
     name: '',
     number: '',
@@ -22,18 +23,26 @@ class CreateContactItem extends Component {
   submitForm = (e) => {
     e.preventDefault();
     console.log("Form submit")
+
     if (this.isValid()) {
       this.setState({
         ErrorMessage: ""
       })
-      var newContact = {
-        id:0,
+      var Contact = {
+        id: 0,
         name: this.state.name,
         number: this.state.number,
         image: this.state.image,
-        gender: this.state.gender
+        gender: this.state.gender,
+        isFavorite: false
       };
-      this.props.addContact(newContact);
+      if (this.props.isEditMode) {
+        Contact.isFavorite = this.props.contactToEdit.isFavorite
+        Contact.id = this.props.contactToEdit.id
+        this.props.updateContact(Contact);
+      }
+      else
+        this.props.addContact(Contact);
     }
     else {
       this.setState({
@@ -55,34 +64,44 @@ class CreateContactItem extends Component {
 
   render() {
     console.log(this.state)
-    const { ErrorMessage } = this.state
-    return (
-      <Fragment>
-        <form onSubmit={this.submitForm}>
-          <div className="form-group">
-            <label>Contact name*</label>
-            <input type="text" className="form-control" name="name" onChange={this.handlerChangeInput} placeholder="Enter name" />
-          </div>
-          <div className="form-group">
-            <label>Contact number*</label>
-            <input type="text" className="form-control" name="number" onChange={this.handlerChangeInput} placeholder="Enter number" />
-          </div>
-          <div className="form-group">
-            <label>Contact number image</label>
-            <input type="number" max="99" min="0" name="image" onChange={this.handlerChangeInput} className="form-control" placeholder="Enter image number" />
-          </div>
-          <div className="form-group">
-            <label>Contact gender</label>
-            <select name="gender" onChange={this.handlerChangeInput} className="form-control">
-              <option value="women">Women</option>
-              <option value="men">Men</option>
-            </select>
-          </div>
-          <p className="text-danger">{ErrorMessage}</p>
-          <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
-      </Fragment>
-    )
+    
+    const { name, number, image, gender } = this.props.contactToEdit
+    var header = 'Add new contact:'
+    var btnHeader = 'Add contact'
+    if (this.props.isEditMode === true) {
+      btnHeader = 'Save changes'
+      header = 'Edit contact: '
+    }
+    const { ErrorMessage, isFirstRender} = this.state
+      return (
+        <Fragment>
+          <h2>{header}</h2>
+          <form onSubmit={this.submitForm}>
+            <div className="form-group">
+              <label>Contact name*</label>
+              <input type="text" className="form-control" name="name" onChange={this.handlerChangeInput} placeholder={name} />
+            </div>
+            <div className="form-group">
+              <label>Contact number*</label>
+              <input type="text" className="form-control" name="number" onChange={this.handlerChangeInput} placeholder={number} />
+            </div>
+            <div className="form-group">
+              <label>Contact number image</label>
+              <input type="number" max="99" min="0" name="image" onChange={this.handlerChangeInput} className="form-control" placeholder={image} />
+            </div>
+            <div className="form-group">
+              <label>Contact gender</label>
+              <select name="gender" onChange={this.handlerChangeInput} className="form-control">
+                <option value="women">Women</option>
+                <option value="men">Men</option>
+              </select>
+            </div>
+            <p className="text-danger">{ErrorMessage}</p>
+            <button type="submit" className="btn btn-primary">{btnHeader}</button>
+          </form>
+        </Fragment>
+      )
+    
   }
 }
 

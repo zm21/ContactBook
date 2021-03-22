@@ -7,6 +7,7 @@ import NoteList from './components/note-list/note-list';
 class App extends Component {
 
   state = {
+    isEditMode: false,
     statusDelete: false,
     contacts: [
       {
@@ -44,26 +45,39 @@ class App extends Component {
     ],
     notes: [
       {
+        id: 1,
         title: "First note",
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
       },
       {
+        id: 2,
         title: "Second note",
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
       },
       {
+        id: 3,
         title: "Third note",
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
       },
       {
+        id: 4,
         title: "Fourth note",
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
       },
       {
+        id: 5,
         title: "Fifth note",
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
       }
-    ]
+    ],
+    contactToEdit: {
+      id: 0,
+      name: '',
+      number: '',
+      image: 0,
+      gender: '',
+      isFavorite: false
+    }
   }
 
   addContact = (newContact) => {
@@ -81,14 +95,30 @@ class App extends Component {
   updateContact = (contact) => {
     var tempContacts = [];
     if (this.state.contacts != null) {
-      tempContacts = this.state.contacts.slice();
-      var foundIndex = tempContacts.findIndex(x => x.id == contact.id);
-      tempContacts[foundIndex] = contact;
+        tempContacts = this.state.contacts.slice();
+        var foundIndex = tempContacts.findIndex(x => x.id == contact.id);
+
+        tempContacts.splice(foundIndex, 1, contact);
+        this.setState({
+         contacts: tempContacts,
+          isEditMode:false,
+          contactToEdit: {
+          id: 0,
+          name: '',
+          number: '',
+          image: 0,
+          gender: '', 
+          isFavorite: false
+        }
+      })
     }
 
-    this.setState({
-      contacts: tempContacts
-    })
+    console.log('update: ')
+    console.log(tempContacts)
+
+
+    
+
   }
 
   removeContact = (contact) => {
@@ -104,11 +134,18 @@ class App extends Component {
     }
   }
 
+  editContact = (contact) => {
+    this.setState({
+      isEditMode: true,
+      contactToEdit: contact
+    })
+  }
+
 
 
   render() {
     console.log('=========')
-    console.log(this.state.contacts)
+    console.log(this.state)
     console.log('=========')
     return (
       <Fragment>
@@ -118,13 +155,12 @@ class App extends Component {
           <div className="row">
 
             <div className="col-lg-2 col-md-2 col-sm-12">
-              <h2>Add new contact:</h2>
-              <CreateContactItem addContact={this.addContact}></CreateContactItem>
+              <CreateContactItem updateContact={this.updateContact} isEditMode={this.state.isEditMode} contactToEdit={this.state.contactToEdit} addContact={this.addContact}></CreateContactItem>
             </div>
 
             <div className="col-lg-10 col-md-10 col-sm-12">
               <div className="row">
-                <ContactList removeContact={this.removeContact} updateContact={this.updateContact} contacts={this.state.contacts.slice()}></ContactList>
+                <ContactList editContact={this.editContact} removeContact={this.removeContact} updateContact={this.updateContact} contacts={this.state.contacts}></ContactList>
               </div>
             </div>
 

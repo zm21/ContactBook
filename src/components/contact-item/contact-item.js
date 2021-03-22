@@ -4,7 +4,7 @@ import './contact-item.css';
 class ContactItem extends Component {
 
     state = {
-        id : this.props.id,
+        id: this.props.id,
         name: this.props.name,
         number: this.props.number,
         image: this.props.image,
@@ -13,7 +13,7 @@ class ContactItem extends Component {
     }
 
     setRandomImage = () => {
-        var randmomAvatar = Math.floor(Math.random()*Math.floor(99));
+        var randmomAvatar = Math.floor(Math.random() * Math.floor(99));
         this.setState({
             image: randmomAvatar
         })
@@ -22,40 +22,52 @@ class ContactItem extends Component {
     setIsFavorite = () => {
 
         var contact = {
-            id : this.state.id,
+            id: this.state.id,
             name: this.state.name,
             number: this.state.number,
             image: this.state.image,
-            gender: this.props.gender,
+            gender: this.state.gender,
             isFavorite: !this.state.isFavorite
         }
         this.props.updateContact(contact);
 
         this.setState({
-            isFavorite : !this.state.isFavorite
+            isFavorite: !this.state.isFavorite
         })
     }
 
-   delete = () =>{
+    delete = () => {
         console.log(this.state.id + 'to delete')
         var contact = {
-        id : this.state.id,
-        name: this.state.name,
-        number: this.state.number,
-        image: this.state.image,
-        gender: this.props.gender,
-        isFavorite: !this.state.isFavorite
+            id: this.state.id,
+            name: this.state.name,
+            number: this.state.number,
+            image: this.state.image,
+            gender: this.props.gender,
+            isFavorite: this.state.isFavorite
+        }
+        this.props.removeContact(contact);
     }
-    this.props.removeContact(contact);
-   }
+
+    edit = () => {
+        var contact = {
+            id: this.state.id,
+            name: this.state.name,
+            number: this.state.number,
+            image: this.state.image,
+            gender: this.props.gender,
+            isFavorite: this.state.isFavorite
+        }
+        console.log('to edit '+contact)
+        this.props.editContact(contact);
+    }
 
     render() {
         const { name, number, image, gender, isFavorite } = this.state
         const image_URL = `https://randomuser.me/api/portraits/${gender}/${image}.jpg`
         var star = `far fa-star star`
-        if(isFavorite==true)
-        {
-            star=`fa fa-star star`
+        if (isFavorite == true) {
+            star = `fa fa-star star`
         }
         return (
             <Fragment>
@@ -69,12 +81,12 @@ class ContactItem extends Component {
                         <ul className="list-group list-group-flush">
                             <li className="list-group-item">{number}</li>
                         </ul>
-                    <div className="card-body card-footer">
-                        <button onClick={this.setRandomImage} className="btn btn-info">Random image</button>
-                        <div>
-                            <i className={star} onClick={this.setIsFavorite}></i> <i onClick={this.delete} className="trash fas fa-trash"></i>    
+                        <div className="card-body card-footer">
+                            <button onClick={this.setRandomImage} className="btn btn-info">Random image</button>
+                            <div>
+                                <i className={star} onClick={this.setIsFavorite}></i> <i onClick={this.delete} className="trash fas fa-trash"></i> <i onClick={this.edit} className="edit fas fa-edit"></i>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </Fragment>
