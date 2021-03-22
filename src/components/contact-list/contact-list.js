@@ -1,13 +1,14 @@
 import React, {Fragment} from 'react';
 import ContactItem from '../contact-item/contact-item';
 
-const ContactList = ({contacts}) => {
+const ContactList = ({contacts, removeContact, updateContact}) => {
     var ContactsTemplate
     if(contacts !== null)
     {
         ContactsTemplate = contacts.map(item=>
             {
-                return (<ContactItem
+                return (<ContactItem  removeContact={removeContact} updateContact={updateContact}
+                    id={item.id}
                     name={item.name}
                     number={item.number}
                     gender={item.gender}

@@ -4,6 +4,7 @@ import './contact-item.css';
 class ContactItem extends Component {
 
     state = {
+        id : this.props.id,
         name: this.props.name,
         number: this.props.number,
         image: this.props.image,
@@ -19,10 +20,34 @@ class ContactItem extends Component {
     }
 
     setIsFavorite = () => {
+
+        var contact = {
+            id : this.state.id,
+            name: this.state.name,
+            number: this.state.number,
+            image: this.state.image,
+            gender: this.props.gender,
+            isFavorite: !this.state.isFavorite
+        }
+        this.props.updateContact(contact);
+
         this.setState({
             isFavorite : !this.state.isFavorite
         })
     }
+
+   delete = () =>{
+        console.log(this.state.id + 'to delete')
+        var contact = {
+        id : this.state.id,
+        name: this.state.name,
+        number: this.state.number,
+        image: this.state.image,
+        gender: this.props.gender,
+        isFavorite: !this.state.isFavorite
+    }
+    this.props.removeContact(contact);
+   }
 
     render() {
         const { name, number, image, gender, isFavorite } = this.state
@@ -30,7 +55,7 @@ class ContactItem extends Component {
         var star = `far fa-star star`
         if(isFavorite==true)
         {
-            star=`far fa-star fa star`
+            star=`fa fa-star star`
         }
         return (
             <Fragment>
@@ -46,7 +71,9 @@ class ContactItem extends Component {
                         </ul>
                     <div className="card-body card-footer">
                         <button onClick={this.setRandomImage} className="btn btn-info">Random image</button>
-                        <i className={star} onClick={this.setIsFavorite}></i>
+                        <div>
+                            <i className={star} onClick={this.setIsFavorite}></i> <i onClick={this.delete} className="trash fas fa-trash"></i>    
+                        </div>
                     </div>
                     </div>
                 </div>
