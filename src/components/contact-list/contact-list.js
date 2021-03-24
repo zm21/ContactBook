@@ -8,7 +8,8 @@ const ContactList = ({contacts, removeContact, updateContact, editContact}) => {
     {
         ContactsTemplate = contacts.map(item=>
             {
-                return (<ContactItem removeContact={removeContact} updateContact={updateContact} editContact={editContact}
+                return (
+                <ContactItem removeContact={removeContact} updateContact={updateContact} editContact={editContact}
                     key={uuidv4()}
                     id={item.id}
                     name={item.name}
@@ -21,7 +22,9 @@ const ContactList = ({contacts, removeContact, updateContact, editContact}) => {
     }
     return(
         <Fragment>
-           {ContactsTemplate} {/*contactItem collection */}
+            <div className="row">
+                {ContactsTemplate} {/*contactItem collection */}
+            </div>
         </Fragment>
     )
 }

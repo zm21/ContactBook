@@ -4,9 +4,17 @@ import NavbarItem from './components/navbar-item/navbar-item'
 import CreateContactItem from './components/create-contact-item/create-contact-item'
 import ContactList from './components/contact-list/contact-list';
 import NoteList from './components/note-list/note-list';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
+import Home from './components/home/home'
+import Page404 from './components/page404/page404'
+import Test from './components/test/test'
+
+
 class App extends Component {
 
   state = {
+    searchQuery: '',
+    isSearch: false,
     isEditMode: false,
     statusDelete: false,
     contacts: [
@@ -95,19 +103,19 @@ class App extends Component {
   updateContact = (contact) => {
     var tempContacts = [];
     if (this.state.contacts != null) {
-        tempContacts = this.state.contacts.slice();
-        var foundIndex = tempContacts.findIndex(x => x.id == contact.id);
+      tempContacts = this.state.contacts.slice();
+      var foundIndex = tempContacts.findIndex(x => x.id == contact.id);
 
-        tempContacts.splice(foundIndex, 1, contact);
-        this.setState({
-         contacts: tempContacts,
-          isEditMode:false,
-          contactToEdit: {
+      tempContacts.splice(foundIndex, 1, contact);
+      this.setState({
+        contacts: tempContacts,
+        isEditMode: false,
+        contactToEdit: {
           id: 0,
           name: '',
           number: '',
           image: 0,
-          gender: '', 
+          gender: '',
           isFavorite: false
         }
       })
@@ -117,7 +125,7 @@ class App extends Component {
     console.log(tempContacts)
 
 
-    
+
 
   }
 
@@ -141,36 +149,89 @@ class App extends Component {
     })
   }
 
+  search = (search) =>{
+    this.setState({
+      searchQuery: search,
+      isSearch: true
+    })
+  }
 
 
   render() {
     console.log('=========')
     console.log(this.state)
     console.log('=========')
+
+    var favorite_contacts = this.state.contacts.filter(obj => {
+      return obj.isFavorite === true
+    })
+
+    console.log('search: ' + this.state.searchQuery)
+    if(this.state.isSearch === true )
+    {
+      this.state.isSearch = false
+      return  <Router><Redirect to='/contacts'/></Router>;
+    }
+    var contacts = this.state.contacts.filter(obj => {
+      return obj.name.includes(this.state.searchQuery) || obj.number.includes(this.state.searchQuery)})
+      this.state.searchQuery=''
     return (
       <Fragment>
-        <NavbarItem></NavbarItem>
+        <Router>
+          <NavbarItem search={this.search}></NavbarItem>
+         
+          <div className="container">
 
-        <div className="container-fluid">
-          <div className="row">
 
-            <div className="col-lg-2 col-md-2 col-sm-12">
-              <CreateContactItem updateContact={this.updateContact} isEditMode={this.state.isEditMode} contactToEdit={this.state.contactToEdit} addContact={this.addContact}></CreateContactItem>
-            </div>
+            <Switch>
 
-            <div className="col-lg-10 col-md-10 col-sm-12">
-              <div className="row">
-                <ContactList editContact={this.editContact} removeContact={this.removeContact} updateContact={this.updateContact} contacts={this.state.contacts}></ContactList>
-              </div>
-            </div>
+              <Route
+                path="/"
+                exact
+                render={() => <Home></Home>}
+              ></Route>
+
+              <Route
+                path="/contacts"
+                exact
+                render={() =>  <ContactList editContact={this.editContact} removeContact={this.removeContact} updateContact={this.updateContact} contacts={contacts}></ContactList>}
+              ></Route>
+
+              <Route
+                path="/favorite-contacts"
+                exact
+                render={() => <ContactList editContact={this.editContact} removeContact={this.removeContact} updateContact={this.updateContact} contacts={favorite_contacts}></ContactList>}
+              ></Route>
+
+              <Route
+                path="/add-contact"
+                exact
+                render={() => <CreateContactItem updateContact={this.updateContact} isEditMode={this.state.isEditMode} contactToEdit={this.state.contactToEdit} addContact={this.addContact}></CreateContactItem>}
+              ></Route>
+
+              <Route
+                path="/notes"
+                exact
+                render={() => <NoteList notes={this.state.notes}></NoteList>}
+              ></Route>
+
+              <Route
+                path="/test/:id"
+                component={Test}
+              ></Route>
+
+
+              <Route
+                path="*"
+                render={() => <Page404></Page404>}
+              ></Route>
+
+
+            </Switch>
 
           </div>
 
-          <h2>Notes:</h2>
-          <div className="row">
-            <NoteList notes={this.state.notes}></NoteList>
-          </div>
-        </div>
+        </Router>
       </Fragment>
     )
   }

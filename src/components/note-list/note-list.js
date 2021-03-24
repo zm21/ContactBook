@@ -22,7 +22,9 @@ class NoteList extends Component {
         }
         return (
             <Fragment>
-                {NotesTemplate} {/*contactItem collection */}
+                 <div className="row">
+                    {NotesTemplate} {/*contactItem collection */}
+                 </div>
             </Fragment>
         )
     }
