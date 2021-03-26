@@ -34,7 +34,9 @@ class CreateContactItem extends Component {
         number: this.state.number,
         image: this.state.image,
         gender: this.state.gender,
-        isFavorite: false
+        isFavorite: false,
+        groupId: 0,
+        isHidden: false
       };
       if (this.props.isEditMode) {
         Contact.isFavorite = this.props.contactToEdit.isFavorite
