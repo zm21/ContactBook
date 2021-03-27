@@ -14,16 +14,18 @@ class NoteList extends Component {
         if (notes !== null) {
             NotesTemplate = notes.map(item => {
                 return (<NoteItem
+                    id={item.id}
                     key={uuidv4()}
                     title={item.title}
                     text={item.text}
+                    removeNote={this.props.removeNote}
                 ></NoteItem>)
             })
         }
         return (
             <Fragment>
                  <div className="row">
-                    {NotesTemplate} {/*contactItem collection */}
+                    {NotesTemplate} 
                  </div>
             </Fragment>
         )

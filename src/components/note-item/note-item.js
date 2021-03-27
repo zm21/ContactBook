@@ -4,8 +4,19 @@ import './note-item.css';
 class NoteItem extends Component {
 
     state = {
+        id: this.props.id,
         title: this.props.title,
         text: this.props.text,
+    }
+
+    delete = () => {
+        console.log(this.state.id + 'to delete')
+        var note = {
+            id: this.state.id,
+            title: this.state.title,
+            text: this.state.text     
+        }
+        this.props.removeNote(note);
     }
 
     render() {
@@ -17,6 +28,9 @@ class NoteItem extends Component {
                         <div className="card-body">
                             <h5 className="card-title">{title}</h5>
                             <p className="card-text">{text}</p>
+                        </div>
+                        <div className="card-footer">
+                        <i onClick={this.delete} className="trash fas fa-trash"></i> 
                         </div>
                     </div>
                 </div>

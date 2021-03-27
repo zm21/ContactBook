@@ -92,7 +92,7 @@ class ContactItem extends Component {
                 image: this.state.image,
                 gender: this.state.gender,
                 isFavorite: this.state.isFavorite,
-                groupId: parseInt(e.target.value),
+                groupId: e.target.value,
                 isHidden: this.state.isHidden
             }
             this.props.updateContact(contact);
@@ -148,7 +148,7 @@ class ContactItem extends Component {
 
         return (
             <Fragment>
-                <div className="contcat-card-cont col-lg-3 col-md-6 col-sm-6 col-12">
+                <div className="contcat-card-cont col-lg-4 col-md-6 col-sm-6 col-12">
                     <div className="card contact-card">
                         <img className="card-img-top" src={image_URL} alt="Card image cap" />
                         <div className="card-body">

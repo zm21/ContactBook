@@ -41,6 +41,8 @@ class CreateContactItem extends Component {
       if (this.props.isEditMode) {
         Contact.isFavorite = this.props.contactToEdit.isFavorite
         Contact.id = this.props.contactToEdit.id
+        Contact.groupId = this.props.contactToEdit.groupId
+        Contact.isHidden = this.props.contactToEdit.isHidden
         this.props.updateContact(Contact);
       }
       else

@@ -10,7 +10,11 @@ import Page404 from './components/page404/page404'
 import Test from './components/test/test'
 import GroupList from './components/group-list/group-list';
 import GroupCreate from './components/group-create/group-create';
+import CreateNoteItem from './components/create-note/create-note';
+import { v4 as uuidv4 } from 'uuid';
 import { push } from 'connected-react-router';
+
+
 
 class App extends Component {
 
@@ -19,7 +23,6 @@ class App extends Component {
     isSearch: false,
     isEditMode: false,
     statusDelete: false,
-    isRedirect: false,
     contacts: [
       {
         id: 1,
@@ -101,7 +104,9 @@ class App extends Component {
       number: '',
       image: 0,
       gender: '',
-      isFavorite: false
+      isFavorite: false,
+      groupId: 0,
+      isHidden: false 
     },
   }
 
@@ -147,7 +152,7 @@ class App extends Component {
     if (this.state.contacts != null) {
       tempContacts = this.state.contacts.slice();//coppy array
     }
-    newContact.id = tempContacts.length+1;
+    newContact.id = uuidv4();
     tempContacts.push(newContact);
     this.setState({
       contacts: tempContacts
@@ -162,12 +167,26 @@ class App extends Component {
     if (this.state.groups != null) {
       tempGroups = this.state.groups.slice();
     }
-    newGroup.id = tempGroups.length+1;
+    newGroup.id = uuidv4();
     tempGroups.push(newGroup);
 
 
     this.setState({
       groups: tempGroups
+    })
+  }
+
+  addNote = (newNote) => {
+    var tempNotes = [];
+    if (this.state.notes != null) {
+      tempNotes = this.state.notes.slice();
+    }
+    newNote.id = uuidv4();
+    tempNotes.push(newNote);
+
+
+    this.setState({
+      notes: tempNotes
     })
   }
 
@@ -229,6 +248,18 @@ class App extends Component {
     }
   }
 
+  removeNote = (note) => {
+    console.log('removing: ');
+    console.log(note);
+    if (this.state.notes != null) {
+      var foundIndex = this.state.notes.findIndex(x => x.id == note.id);
+      this.state.notes.splice(foundIndex, 1);
+      this.setState({
+        statusDelete: true
+      });
+    }
+  }
+
   editContact = (contact) => {
     this.setState({
       isEditMode: true,
@@ -279,10 +310,8 @@ class App extends Component {
 
     console.log('search: ' + this.state.searchQuery)
     if (this.state.isSearch === true) {
-      this.setState({
-        isSearch: false,
-        isRedirect: true
-      })
+      this.state.isSearch = false;
+      push('/contacts')
     }
     var contacts;
     if (this.state.contacts != null) {
@@ -343,7 +372,13 @@ class App extends Component {
               <Route
                 path="/notes"
                 exact
-                render={() => <NoteList notes={this.state.notes}></NoteList>}
+                render={() => <NoteList removeNote={this.removeNote} notes={this.state.notes}></NoteList>}
+              ></Route>
+
+              <Route
+                path="/add-note"
+                exact
+                render={() => <CreateNoteItem addNote={this.addNote}></CreateNoteItem>}
               ></Route>
 
               <Route

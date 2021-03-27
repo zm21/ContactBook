@@ -11,25 +11,13 @@ class GroupItem extends Component {
 
     delete = () => {
         console.log(this.state.id + 'to delete')
-        var contact = {
+        var group = {
             id: this.state.id,
             name: this.state.name
         }
-        this.props.removeGroup(contact);
+        this.props.removeGroup(group);
     }
 
-    edit = () => {
-        var contact = {
-            id: this.state.id,
-            name: this.state.name,
-            number: this.state.number,
-            image: this.state.image,
-            gender: this.props.gender,
-            isFavorite: this.state.isFavorite
-        }
-        console.log('to edit '+contact)
-        this.props.editContact(contact);
-    }
 
     render() {
         const { name } = this.state
@@ -44,7 +32,7 @@ class GroupItem extends Component {
                         </div>
                         <div className="card-body card-footer">
                             <div>
-                                <i onClick={this.delete} className="trash fas fa-trash"></i> <i onClick={this.edit} className="edit fas fa-edit"></i>
+                                <i onClick={this.delete} className="trash fas fa-trash"></i>
                             </div>
                         </div>
                     </div>

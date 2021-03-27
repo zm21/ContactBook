@@ -73,7 +73,7 @@ class NavbarItem extends Component {
               <li className="nav-item dropdown">
                 <Link className="nav-link " to="/notes" data-toggle="dropdown">Notes</Link>
                 <ul className="dropdown-menu">
-                  <li><Link className="dropdown-item" to="/add-group">Add new group</Link></li>
+                  <li><Link className="dropdown-item" to="/add-note">Add new note</Link></li>
                 </ul>
               </li>
             </ul>
